@@ -116,6 +116,9 @@ class AddRecFNSpec extends FMATester {
   "AddRecF64" should "pass" in {
     check(test(64))
   }
+  "AddRecExtF80" should "pass" in {
+    check(test("AddRecExtF80", () => new ValExec_AddRecFN(15, 64), Seq("extF80_add")))
+  }
 }
 
 class CompareRecFNSpec extends FMATester {
