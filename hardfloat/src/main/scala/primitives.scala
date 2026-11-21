@@ -50,6 +50,12 @@ object lowMask
         val numInVals = BigInt(1)<<in.getWidth
         if (topBound < bottomBound) {
             lowMask(~in, numInVals - 1 - topBound, numInVals - 1 - bottomBound)
+        } else if (topBound > numInVals) {
+            if (bottomBound >= numInVals) {
+                0.U((topBound - bottomBound).toInt.W)
+            } else {
+                0.U((topBound - numInVals).toInt.W) ## lowMask(in, numInVals, bottomBound)
+            }
         } else if (numInVals > 64 /* Empirical */) {
             // For simulation performance, we should avoid generating
             // exteremely wide shifters, so we divide and conquer.

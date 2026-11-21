@@ -55,7 +55,7 @@ class AddRawFN(expWidth: Int, sigWidth: Int) extends RawModule
         val rawOut = Output(new RawFloat(expWidth, sigWidth + 2))
     })
 
-    val alignDistWidth = log2Ceil(sigWidth)
+    val alignDistWidth = log2Ceil(sigWidth + 3)
 
     val effSignB = io.b.sign ^ io.subOp
     val eqSigns = io.a.sign === effSignB
