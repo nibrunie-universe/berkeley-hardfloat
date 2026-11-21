@@ -84,7 +84,7 @@ trait FMATester extends AnyFlatSpec with Matchers with ParallelTestExecution {
     def executeAndLog(softfloatArg: Seq[String], dutArg: Seq[String]): String = {
       val stdoutFile = testRunDir / s"${name}__${(softfloatArg ++ dutArg).mkString("_")}.txt"
       val vcdFile = testRunDir / s"${name}__${(softfloatArg ++ dutArg).mkString("_")}.vcd"
-      os.proc((testRunDir / "dut").toString +: dutArg).call(stdin = os.proc("testfloat_gen" +: softfloatArg).spawn().stdout, stdout = stdoutFile, stderr = vcdFile)
+      os.proc((testRunDir / "dut").toString +: dutArg).call(stdin = os.proc("testfloat_gen" +: "-level2" +: softfloatArg).spawn().stdout, stdout = stdoutFile, stderr = vcdFile)
       os.read(stdoutFile)
     }
 
@@ -106,6 +106,9 @@ class AddRecFNSpec extends FMATester {
   }
   "AddRecF16" should "pass" in {
     check(test(16))
+  }
+  "AddRecBF16" should "pass" in {
+    check(test("AddRecBF16", () => new ValExec_AddRecFN(8, 8), Seq("bf16_add")))
   }
   "AddRecF32" should "pass" in {
     check(test(32))
